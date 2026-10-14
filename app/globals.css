@@ -151,6 +151,18 @@
 }
 [data-theme="paddock"] .font-display { font-weight: 700; text-transform: uppercase; letter-spacing: .01em; }
 
+/* Paddock motion — fast, steps() for blink and counters. 9 s night scan. */
+@keyframes pd-scan { 0% { left: -2%; } 45%, 100% { left: 102%; } }
+@keyframes pd-wire { 0% { opacity: 0; } 10%, 55% { opacity: 1; } 70%, 100% { opacity: 0; } }
+@keyframes pd-fill { 0%, 10% { clip-path: inset(0 100% 0 0); } 50%, 100% { clip-path: inset(0 0 0 0); } }
+@keyframes pd-hud { 0%, 40% { opacity: 0; transform: translateY(6px); } 55%, 100% { opacity: 1; transform: none; } }
+@keyframes pd-blink { 50% { opacity: .3; } }
+@keyframes pd-bar { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes pd-explode-1 { 0%, 15% { transform: rotateX(55deg) rotateZ(-18deg) translateZ(0); } 45%, 70% { transform: rotateX(55deg) rotateZ(-18deg) translateZ(150px); } 100% { transform: rotateX(55deg) rotateZ(-18deg) translateZ(0); } }
+@keyframes pd-explode-2 { 0%, 15% { transform: rotateX(55deg) rotateZ(-18deg) translateZ(0); } 45%, 70% { transform: rotateX(55deg) rotateZ(-18deg) translateZ(60px); } 100% { transform: rotateX(55deg) rotateZ(-18deg) translateZ(0); } }
+@keyframes pd-explode-3 { 0%, 15% { transform: rotateX(55deg) rotateZ(-18deg) translateZ(0); } 45%, 70% { transform: rotateX(55deg) rotateZ(-18deg) translateZ(-40px); } 100% { transform: rotateX(55deg) rotateZ(-18deg) translateZ(0); } }
+@keyframes pd-label { 0%, 25% { opacity: 0; } 45%, 70% { opacity: 1; } 85%, 100% { opacity: 0; } }
+
 /* ── Pattern Room — archive, graph paper ── */
 [data-theme="pattern-room"] {
   --color-bg: #edebe4;
