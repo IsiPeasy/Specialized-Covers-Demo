@@ -1,26 +1,173 @@
 @import "tailwindcss";
 
-/* ── Atelier tokens ─────────────────────────────────────────────── */
-@theme {
-  --color-ivory: #f4f0e8;
-  --color-ivory-2: #fbf9f4;
-  --color-sand: #eae3d3;
-  --color-sand-2: #e7e1d4;
+/* ── Theme tokens ───────────────────────────────────────────────────
+ * @theme holds Atelier, the default. Themes override the SEMANTIC names
+ * (bg, surface, ink, accent…) under [data-theme="…"] below.
+ * The Atelier names (ivory, green, brass…) are aliases, so existing
+ * utilities like bg-green or text-ivory resolve to the active theme.
+ * Keep the values in step with lib/themes.ts (tokens). */
+@theme static {
+  --color-bg: #f4f0e8;
+  --color-surface: #fbf9f4;
+  --color-surface-2: #eae3d3;
+  --color-surface-3: #e7e1d4;
   --color-line: #ddd6c8;
   --color-line-2: #cfc5b0;
   --color-ink: #1a1a17;
   --color-ink-2: #4a463e;
   --color-ink-3: #5e594f;
-  --color-green: #1f3b2e;
-  --color-green-2: #2a6341;
-  --color-green-ok: #1c6b3a;
-  --color-brass: #c9a35a;
-  --color-brass-2: #8a6a2f;
+  --color-accent: #1f3b2e;
+  --color-accent-hover: #2a6341;
+  --color-on-accent: #f4f0e8;
+  --color-accent-2: #c9a35a;
+  --color-accent-2-ink: #8a6a2f;
+  --color-ok: #1c6b3a;
+  --color-warn: #a4462e;
+  --color-model: #2a6341;
+  --color-model-trim: #c9a35a;
+  --color-quote-cover: #1f3b2e;
+  --color-quote-cover-ink: #f4f0e8;
+
+  /* Atelier aliases → semantic tokens */
+  --color-ivory: var(--color-bg);
+  --color-ivory-2: var(--color-surface);
+  --color-sand: var(--color-surface-2);
+  --color-sand-2: var(--color-surface-3);
+  --color-green: var(--color-accent);
+  --color-green-2: var(--color-accent-hover);
+  --color-green-ok: var(--color-ok);
+  --color-brass: var(--color-accent-2);
+  --color-brass-2: var(--color-accent-2-ink);
 
   --font-display: "Cormorant Garamond", Georgia, serif;
   --font-body: "Karla", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius-pill: 9999px;
+  --radius-swatch: 9999px;
 }
+
+/* Every themed subtree re-resolves the aliases against its own semantic
+ * tokens (custom properties resolve where declared, so :root alone would
+ * pin them to Atelier inside the landing-page doors). */
+[data-theme] {
+  --color-ivory: var(--color-bg);
+  --color-ivory-2: var(--color-surface);
+  --color-sand: var(--color-surface-2);
+  --color-sand-2: var(--color-surface-3);
+  --color-green: var(--color-accent);
+  --color-green-2: var(--color-accent-hover);
+  --color-green-ok: var(--color-ok);
+  --color-brass: var(--color-accent-2);
+  --color-brass-2: var(--color-accent-2-ink);
+  --ground: var(--color-bg);
+  --ease: cubic-bezier(.25, .8, .25, 1);
+  --dur: .5s;
+  background: var(--ground);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+/* ── Showroom — luxury minimal, dark ── */
+[data-theme="showroom"] {
+  color-scheme: dark;
+  --color-bg: #0e0e0f;
+  --color-surface: #161616;
+  --color-surface-2: #121213;
+  --color-surface-3: #2a2a2a;
+  --color-line: #2a2a2a;
+  --color-line-2: #3a3a3a;
+  --color-ink: #f4f4f2;
+  --color-ink-2: #b4b4ae;
+  --color-ink-3: #9a9c9e;
+  --color-accent: #f4f4f2;
+  --color-accent-hover: #ffffff;
+  --color-on-accent: #0e0e0f;
+  --color-accent-2: #8f9193;
+  --color-accent-2-ink: #b4b4ae;
+  --color-ok: #d8d8d4;
+  --color-warn: #e0a08a;
+  --color-model: #b9bbbd;
+  --color-model-trim: #f4f4f2;
+  --color-quote-cover: #000000;
+  --color-quote-cover-ink: #b9bbbd;
+  --font-display: "Jost", "Futura", system-ui, sans-serif;
+  --font-body: "Hanken Grotesk", system-ui, sans-serif;
+  --font-mono: "Jost", system-ui, sans-serif;
+  --font-serif: "Bodoni Moda", Didot, serif;
+  --radius-pill: 9999px;
+  --radius-swatch: 9999px;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --dur: 1.2s;
+}
+[data-theme="showroom"] .font-display { font-weight: 300; letter-spacing: .02em; }
+[data-theme="showroom"] .eyebrow { font-family: var(--font-body); letter-spacing: .32em; font-size: 11px; }
+
+/* ── Paddock — motorsport, technical ── */
+[data-theme="paddock"] {
+  color-scheme: dark;
+  --color-bg: #0e0f11;
+  --color-surface: #17191c;
+  --color-surface-2: #1a1d22;
+  --color-surface-3: #26282d;
+  --color-line: #26282d;
+  --color-line-2: #34373d;
+  --color-ink: #f2f2f0;
+  --color-ink-2: #a3a6ad;
+  --color-ink-3: #8f939b;
+  --color-accent: #ff6a13;
+  --color-accent-hover: #ff8a45;
+  --color-on-accent: #0e0f11;
+  --color-accent-2: #5eead4;
+  --color-accent-2-ink: #5eead4;
+  --color-ok: #5eead4;
+  --color-warn: #ff8a45;
+  --color-model: #4a4f57;
+  --color-model-trim: #ff6a13;
+  --color-quote-cover: #17191c;
+  --color-quote-cover-ink: #5eead4;
+  --font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-body: "Barlow", system-ui, sans-serif;
+  --font-mono: "Share Tech Mono", ui-monospace, monospace;
+  --radius-pill: 2px;
+  --radius-swatch: 2px;
+  --ease: cubic-bezier(.3, 0, .2, 1);
+  --dur: .35s;
+}
+[data-theme="paddock"] .font-display { font-weight: 700; text-transform: uppercase; letter-spacing: .01em; }
+
+/* ── Pattern Room — archive, graph paper ── */
+[data-theme="pattern-room"] {
+  --color-bg: #edebe4;
+  --color-surface: #f7f6f1;
+  --color-surface-2: #e6e3da;
+  --color-surface-3: #c9c4b6;
+  --color-line: #16203a;
+  --color-line-2: #9a9686;
+  --color-ink: #16203a;
+  --color-ink-2: #3a4562;
+  --color-ink-3: #4f5874;
+  --color-accent: #1d3a8a;
+  --color-accent-hover: #16203a;
+  --color-on-accent: #f7f6f1;
+  --color-accent-2: #b3302a;
+  --color-accent-2-ink: #b3302a;
+  --color-ok: #1c6b3a;
+  --color-warn: #b3302a;
+  --color-model: #1d3a8a;
+  --color-model-trim: #b3302a;
+  --color-quote-cover: #1d3a8a;
+  --color-quote-cover-ink: #f7f6f1;
+  --font-display: "IBM Plex Mono", ui-monospace, monospace;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --radius-pill: 0px;
+  --radius-swatch: 0px;
+  --ease: ease-in-out;
+  --dur: .6s;
+  --ground: linear-gradient(#dad6cb 1px, transparent 1px) 0 0 / 32px 32px, linear-gradient(90deg, #dad6cb 1px, transparent 1px) 0 0 / 32px 32px, #edebe4;
+}
+[data-theme="pattern-room"] .font-display { font-weight: 600; letter-spacing: -.02em; }
 
 @layer base {
   :root { color-scheme: light; }
@@ -31,12 +178,14 @@
 
 .font-display { font-family: var(--font-display); }
 .font-mono { font-family: var(--font-mono); }
+.font-serif { font-family: var(--font-serif, var(--font-display)); }
 
 .btn, .btn-primary, .btn-outline { @apply inline-flex items-center justify-center gap-2 px-6 py-3.5 font-bold tracking-wider text-sm no-underline; }
-.btn-primary { @apply bg-green text-ivory hover:bg-green-2 hover:text-ivory; }
+.btn-primary { @apply bg-green text-on-accent hover:bg-green-2 hover:text-on-accent; }
 .btn-outline { @apply border border-ink text-ink hover:border-brass-2; }
 .eyebrow { @apply font-mono text-xs tracking-[.12em] text-brass-2 uppercase; }
-.pill { @apply font-mono text-xs px-3 py-1.5 rounded-full; }
+.pill { @apply font-mono text-xs px-3 py-1.5 rounded-pill; }
+.t-theme { transition-timing-function: var(--ease); transition-duration: var(--dur); }
 
 /* 3D helpers */
 .perspective { perspective: 1500px; }
@@ -48,5 +197,13 @@
 @keyframes draw { from { stroke-dashoffset: 2400; } 55%, 100% { stroke-dashoffset: 0; } }
 @keyframes stitch { to { stroke-dashoffset: -12; } }
 @keyframes bump { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media print {
+  body * { visibility: hidden; }
+  .print-sheet, .print-sheet * { visibility: visible; }
+  .print-sheet { position: absolute; inset: 0 auto auto 0; width: 100%; box-shadow: none !important; transform: none !important; }
+  .no-print { display: none !important; }
+}
 
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

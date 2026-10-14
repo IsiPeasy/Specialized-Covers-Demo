@@ -10,6 +10,17 @@ export interface Cover3DProps {
   stripeOn: boolean;
   view: "three" | "side" | "top";
   className?: string;
+  /** Theme props — scene only, never the cover geometry */
+  background?: string | null;
+  lightIntensity?: number;
+  keyColor?: string;
+  /** Raking light from the right (Paddock) */
+  rimColor?: string | null;
+  autoRotate?: boolean;
+  /** Wireframe overlay colour (Pattern Room) */
+  wireframe?: string | null;
+  /** Ground grid colour (Paddock) */
+  grid?: string | null;
 }
 
 /** Builds the cover's cross-section from the same SVG path every 2D preview uses. */
@@ -32,7 +43,7 @@ function carShape(): THREE.Shape {
  */
 export default function Cover3D(props: Cover3DProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rig = useRef<{ side: THREE.MeshStandardMaterial; centre: THREE.MeshStandardMaterial; pipe: THREE.MeshStandardMaterial; stripeMat: THREE.MeshStandardMaterial; stripe: THREE.Mesh; group: THREE.Group; camTarget: THREE.Vector3; view: string } | null>(null);
+  const rig = useRef<{ side: THREE.MeshStandardMaterial; centre: THREE.MeshStandardMaterial; pipe: THREE.MeshStandardMaterial; stripeMat: THREE.MeshStandardMaterial; stripe: THREE.Mesh; group: THREE.Group; camTarget: THREE.Vector3; view: string; autoRotate: boolean } | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -41,10 +52,12 @@ export default function Cover3D(props: Cover3DProps) {
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(2, window.devicePixelRatio)); renderer.setSize(W, H, false); renderer.shadowMap.enabled = true;
     const scene = new THREE.Scene();
+    if (props.background) scene.background = new THREE.Color(props.background);
+    const li = props.lightIntensity ?? 1;
     const camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 100);
     const camTarget = new THREE.Vector3(4.2, 3.2, 12.6); camera.position.copy(camTarget); camera.lookAt(0, 0, 0);
-    scene.add(new THREE.HemisphereLight(0xffffff, 0x9a9484, 0.95));
-    const sun = new THREE.DirectionalLight(0xfff4e0, 1.0); sun.position.set(4, 7, 5); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); scene.add(sun);
+    scene.add(new THREE.HemisphereLight(0xffffff, 0x9a9484, 0.95 * li));
+    const sun = new THREE.DirectionalLight(props.keyColor ?? 0xfff4e0, 1.0 * li); sun.position.set(4, 7, 5); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); scene.add(sun);
     const group = new THREE.Group(); scene.add(group);
     const depth = 2.0;
     const geo = new THREE.ExtrudeGeometry(carShape(), { depth, bevelEnabled: true, bevelThickness: 0.16, bevelSize: 0.14, bevelSegments: 5, curveSegments: 24 });
@@ -52,6 +65,8 @@ export default function Cover3D(props: Cover3DProps) {
     const side = new THREE.MeshStandardMaterial({ color: props.side, roughness: 0.92 });
     const centre = new THREE.MeshStandardMaterial({ color: props.centre, roughness: 0.92 });
     const body = new THREE.Mesh(geo, [side, centre]); body.castShadow = true; group.add(body);
+    if (props.rimColor) { const rim = new THREE.DirectionalLight(props.rimColor, 2.2 * li); rim.position.set(9, 1.2, -1.5); scene.add(rim); }
+    if (props.wireframe) group.add(new THREE.Mesh(geo, new THREE.MeshBasicMaterial({ color: props.wireframe, wireframe: true, transparent: true, opacity: 0.35 })));
     const wheelGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.34, 32); wheelGeo.rotateX(Math.PI / 2);
     const wheelMat = new THREE.MeshStandardMaterial({ color: 0x0e0f10, roughness: 0.6 });
     for (const [x, y, z] of [[-2.1, -0.45, 1.05], [2.1, -0.45, 1.05], [-2.1, -0.45, -1.05], [2.1, -0.45, -1.05]]) { const w = new THREE.Mesh(wheelGeo, wheelMat); w.position.set(x, y, z); w.castShadow = true; group.add(w); }
@@ -67,13 +82,18 @@ export default function Cover3D(props: Cover3DProps) {
     stripe.scale.z = 0.35; stripe.visible = props.stripeOn; group.add(stripe);
     const ground = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: 0.18 }));
     ground.rotation.x = -Math.PI / 2; ground.position.y = -0.85; ground.receiveShadow = true; scene.add(ground);
+    if (props.grid) {
+      const grid = new THREE.GridHelper(24, 48, props.grid, props.grid); grid.position.y = -0.84;
+      for (const m of [grid.material].flat()) { m.transparent = true; m.opacity = 0.15; }
+      scene.add(grid);
+    }
 
-    rig.current = { side, centre, pipe, stripeMat, stripe, group, camTarget, view: props.view };
+    rig.current = { side, centre, pipe, stripeMat, stripe, group, camTarget, view: props.view, autoRotate: props.autoRotate ?? true };
     let raf = 0;
     const tick = () => {
       raf = requestAnimationFrame(tick);
       camera.position.lerp(camTarget, 0.06); camera.lookAt(0, 0, 0);
-      if (rig.current?.view === "three") group.rotation.y += 0.003;
+      if (rig.current?.view === "three" && rig.current.autoRotate) group.rotation.y += 0.003;
       renderer.render(scene, camera);
     };
     raf = requestAnimationFrame(tick);
@@ -84,11 +104,11 @@ export default function Cover3D(props: Cover3DProps) {
   useEffect(() => {
     const r = rig.current; if (!r) return;
     r.side.color.set(props.side); r.centre.color.set(props.centre); r.pipe.color.set(props.piping); r.stripeMat.color.set(props.stripe);
-    r.stripe.visible = props.stripeOn; r.view = props.view;
+    r.stripe.visible = props.stripeOn; r.view = props.view; r.autoRotate = props.autoRotate ?? true;
     if (props.view === "side") { r.camTarget.set(0, 0.8, 13.5); r.group.rotation.y = 0; }
     else if (props.view === "top") { r.camTarget.set(0.01, 13.5, 0.01); r.group.rotation.y = 0; }
     else r.camTarget.set(4.2, 3.2, 12.6);
-  }, [props.side, props.centre, props.piping, props.stripe, props.stripeOn, props.view]);
+  }, [props.side, props.centre, props.piping, props.stripe, props.stripeOn, props.view, props.autoRotate]);
 
   return <canvas ref={canvasRef} className={props.className} aria-label="3D preview of your cover" />;
 }

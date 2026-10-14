@@ -1,18 +1,18 @@
-import Link from "next/link";
+import { ThemedLink } from "@/components/theme/ThemeProvider";
 
 export default function SiteHeader({ dark = false }: { dark?: boolean }) {
   const c = dark ? "text-ivory" : "text-ink";
   return (
-    <header className={`flex flex-wrap items-center justify-between gap-5 px-8 py-6 ${c}`}>
-      <Link href="/home" className={`font-display font-semibold text-[22px] tracking-[.2em] no-underline ${c}`}>SPECIALISED COVERS</Link>
-      <nav aria-label="Main" className="flex flex-wrap gap-7 text-[15px]">
-        <Link href="/home" className={`no-underline ${c}`}>Car</Link>
-        <Link href="/shapes" className={`no-underline ${c}`}>Shapes</Link>
-        <Link href="/home#range" className={`no-underline ${c}`}>Range</Link>
-        <Link href="/home#archive" className={`no-underline ${c}`}>Archive</Link>
-        <Link href="/admin" className={`no-underline ${c}`}>Pricing</Link>
+    <header className={`flex flex-wrap items-center justify-between gap-x-5 gap-y-3 px-4 py-5 sm:px-8 sm:py-6 ${c}`}>
+      <ThemedLink href="/" className={`font-display text-[20px] font-semibold tracking-[.2em] no-underline sm:text-[22px] ${c}`}>SPECIALISED COVERS</ThemedLink>
+      <nav aria-label="Main" className="order-3 flex w-full flex-wrap gap-x-7 gap-y-2 text-[15px] lg:order-none lg:w-auto">
+        <ThemedLink href="/" className={`no-underline ${c}`}>Car</ThemedLink>
+        <ThemedLink href="/shapes" className={`no-underline ${c}`}>Shapes</ThemedLink>
+        <ThemedLink href="/#range" className={`no-underline ${c}`}>Range</ThemedLink>
+        <ThemedLink href="/#archive" className={`no-underline ${c}`}>Archive</ThemedLink>
+        <ThemedLink href="/admin" className={`no-underline ${c}`}>Pricing</ThemedLink>
       </nav>
-      <Link href="/configure" className="btn-primary">CONFIGURE YOUR COVER</Link>
+      <ThemedLink href="/configure" className="btn-primary">CONFIGURE YOUR COVER</ThemedLink>
     </header>
   );
 }
