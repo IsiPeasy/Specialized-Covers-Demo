@@ -5,7 +5,7 @@ import { ThemedLink } from "@/components/theme/ThemeProvider";
 export default function PatternHeader() {
   return (
     <header className="mx-auto flex max-w-[1320px] flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-5 sm:px-8">
-      <Link href="/" title="All styles" className="border-2 border-ink px-3 py-2 font-mono text-[16px] font-semibold tracking-[.06em] text-ink no-underline hover:text-ink sm:text-[18px]">SPECIALISED COVERS <span className="text-accent-2">[SC]</span></Link>
+      <Link href="/" title="All styles" className="border-2 border-ink px-3 py-2 font-mono text-[16px] font-semibold tracking-[.24em] text-ink no-underline hover:text-ink sm:text-[18px]">COVERCAR <span className="text-accent-2 tracking-[.06em]">[CC]</span></Link>
       <nav aria-label="Main" className="order-3 flex w-full flex-wrap gap-x-6 gap-y-2 font-mono text-[14px] lg:order-none lg:w-auto">
         <ThemedLink href="/#archive-query">/archive</ThemedLink>
         <ThemedLink href="/#fabrics">/fabrics</ThemedLink>

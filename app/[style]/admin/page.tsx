@@ -9,7 +9,7 @@ export default function Admin() {
     return (
     <div className="grid min-h-screen bg-surface-2 lg:grid-cols-[220px_minmax(0,1fr)]">
       <nav aria-label="Back-office" className="flex flex-wrap gap-1 bg-accent p-4 text-on-accent lg:flex-col lg:flex-nowrap">
-        <Link href="/" title="All styles" className="w-full px-2.5 pb-3 font-display text-lg font-semibold tracking-[.16em] text-on-accent no-underline hover:text-on-accent lg:pb-5">SC · CONFIGURATOR</Link>
+        <Link href="/" title="All styles" className="w-full px-2.5 pb-3 flex flex-col gap-1 font-display text-lg font-medium tracking-[.32em] text-on-accent no-underline hover:text-on-accent lg:pb-5">COVERCAR<span className="font-sans text-[11px] font-semibold tracking-[.3em] opacity-80">CONFIGURATOR</span></Link>
         {["Models & shapes", "Fabrics & lines", "Options & extras", "Colours", "Quotes", "Pattern requests"].map((t, i) => (<span key={t} className={`px-2.5 py-2.5 text-sm ${i === 0 ? "bg-on-accent font-bold text-accent" : ""}`}>{t}</span>))}
       </nav>
       <main className="flex min-w-0 flex-col gap-6 p-4 pb-24 sm:p-9">

@@ -18,7 +18,7 @@ export default function TechSheet() {
         <div className="no-print self-start"><StepTitle n={6} kicker={`Sheet ${QUOTE_NO}`} title="Your pattern sheet." /></div>
         <article className="print-sheet relative flex w-full sm:aspect-[210/297] max-w-[640px] flex-col gap-4 border-2 border-ink bg-[#fdfcf8] p-6 text-[#16203A] shadow-[6px_6px_0_#16203A] sm:p-9" aria-label="Quote sheet">
           <header className="flex items-start justify-between gap-4 border-b-2 border-[#16203A] pb-3 font-mono">
-            <div className="flex flex-col"><strong className="text-[15px] tracking-[.06em]">SPECIALISED COVERS <span className="text-[#B3302A]">[SC]</span></strong><span className="text-[11px]">Shipley, West Yorkshire · 01943 864646</span></div>
+            <div className="flex flex-col"><strong className="text-[15px] tracking-[.24em]">COVERCAR <span className="tracking-[.06em] text-[#B3302A]">[CC]</span></strong><span className="text-[11px]">Shipley, West Yorkshire · 01943 864646</span></div>
             <div className="flex flex-col text-right text-[11px]"><span>SHEET No.</span><strong className="text-[16px]">{QUOTE_NO}</strong><span>{today}</span></div>
           </header>
           <div className="grid grid-cols-[1fr_auto] items-end gap-4">

@@ -11,7 +11,7 @@ export default function MonogramStep() {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const p = PLACEMENTS.find((q) => q.id === s.placement)!;
   const text = s.text.toUpperCase().slice(0, 12);
-  const initials = text.split(/[^A-Z]+/).filter(Boolean).map((w) => w[0]).join("").slice(0, 3) || "SC";
+  const initials = text.split(/[^A-Z]+/).filter(Boolean).map((w) => w[0]).join("").slice(0, 3) || "CC";
   return (
     <main className="grid min-h-0 lg:grid-cols-[minmax(0,1fr)_420px]">
       <section className="perspective relative flex min-h-[460px] min-w-0 items-center justify-center overflow-hidden bg-sand px-4 pt-32 pb-16 lg:p-0"
@@ -37,7 +37,7 @@ export default function MonogramStep() {
             {s.emblem !== "none" && (
               <g transform={`translate(${s.placement === "bonnet" ? 400 : 640},215)`}>
                 <circle r="22" fill="none" stroke={s.thread} strokeWidth="2" strokeDasharray="3 2" />
-                <text y="6" textAnchor="middle" fontFamily="var(--font-display)" fontWeight="600" fontSize="20" fill={s.thread}>{s.emblem === "sc" ? "SC" : initials}</text>
+                <text y="6" textAnchor="middle" fontFamily="var(--font-display)" fontWeight="600" fontSize="20" fill={s.thread}>{s.emblem === "sc" ? "CC" : initials}</text>
               </g>
             )}
           </svg>

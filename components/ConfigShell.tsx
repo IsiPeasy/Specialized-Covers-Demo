@@ -11,7 +11,7 @@ export function ConfigHeader() {
   const { total } = quote(s);
   return (
     <header className="flex flex-wrap items-center justify-between gap-x-5 gap-y-3 border-b border-line px-4 py-4 sm:px-8">
-      <Link href="/" title="All styles" className="font-display text-[20px] font-semibold tracking-[.2em] text-ink no-underline sm:text-[22px]">SPECIALISED COVERS</Link>
+      <Link href="/" title="All styles" className="font-display -mr-[.45em] text-[20px] font-medium tracking-[.45em] text-ink no-underline sm:text-[22px]">COVERCAR</Link>
       <ol aria-label="Steps" className="order-3 flex w-full gap-1.5 overflow-x-auto lg:order-none lg:w-auto lg:flex-wrap">
         <li className="pill shrink-0 text-green-ok">✓ Vehicle</li>
         {STEPS.map((label, i) => (

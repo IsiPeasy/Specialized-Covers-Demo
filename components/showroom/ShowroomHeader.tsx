@@ -12,7 +12,7 @@ export default function ShowroomHeader() {
         <ThemedLink href="/shapes" className={link}>SHAPES</ThemedLink>
         <ThemedLink href="/admin" className={link}>PRICING</ThemedLink>
       </nav>
-      <Link href="/" title="All styles" className="font-display text-[17px] tracking-[.42em] text-ink no-underline hover:text-ink sm:text-[22px]">SPECIALISED COVERS</Link>
+      <Link href="/" title="All styles" className="font-display -mr-[.6em] text-[17px] tracking-[.6em] text-ink no-underline hover:text-ink sm:text-[22px]">COVERCAR</Link>
       <div className="flex justify-end"><ThemedLink href="/configure" className={`${link} border-b border-ink pb-0.5`}>CONFIGURE</ThemedLink></div>
     </header>
   );

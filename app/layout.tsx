@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Specialised Covers — Configurator demo",
+  title: "COVERCAR — Configurator demo",
   description: "Tailored car cover configurator with live pricing — four styles, one price model",
 };
 

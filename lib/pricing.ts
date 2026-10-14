@@ -42,7 +42,7 @@ export function quote(c: Config): { items: LineItem[]; total: number } {
     if (c.stripeOn) items.push({ label: "Racing stripe", amount: OPTIONS.stripe });
   }
   if (c.text.trim()) items.push({ label: `Embroidered text “${c.text.toUpperCase()}”`, amount: OPTIONS.text });
-  if (c.emblem !== "none") items.push({ label: c.emblem === "crest" ? "Embroidered initials roundel" : "Specialised Covers logo", amount: OPTIONS.emblem[c.emblem], included: c.emblem === "sc" });
+  if (c.emblem !== "none") items.push({ label: c.emblem === "crest" ? "Embroidered initials roundel" : "COVERCAR logo", amount: OPTIONS.emblem[c.emblem], included: c.emblem === "sc" });
   if (c.cameraMirrors) items.push({ label: "Camera mirrors — no pockets", amount: 0, included: true });
   if (c.bag) items.push({ label: "Upgraded storage bag", amount: OPTIONS.bag });
   if (c.guarantee) items.push({ label: "Extended guarantee", amount: OPTIONS.guarantee });

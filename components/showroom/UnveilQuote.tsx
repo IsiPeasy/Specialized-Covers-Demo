@@ -47,7 +47,7 @@ export default function UnveilQuote() {
           {/* The silk: covers the card, slides up and off to the right like the hero's cloth */}
           <div aria-hidden="true" className="absolute -inset-3 flex items-center justify-center shadow-[0_30px_60px_rgba(0,0,0,.5)]"
             style={{ background: SILK, borderRadius: "18px 22px 10px 14px", transformOrigin: "90% 20%", transform: shown ? "translate(60%, -70%) rotate(-14deg)" : "none", opacity: shown ? 0 : 1, transition: `transform 1.6s ${EASE}, opacity 1.2s ${EASE} .5s`, pointerEvents: shown ? "none" : "auto" }}>
-            <span className="text-[13px] tracking-[.42em] text-[#6b6455]">SPECIALISED COVERS</span>
+            <span className="text-[13px] tracking-[.6em] text-[#6b6455]">COVERCAR</span>
           </div>
         </div>
       </section>

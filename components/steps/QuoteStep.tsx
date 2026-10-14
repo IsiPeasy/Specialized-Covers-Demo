@@ -38,7 +38,7 @@ export default function QuoteStep() {
           <div className={`${face} hidden items-center justify-between bg-quote-cover text-center text-quote-cover-ink lg:flex`} style={{ transform: "rotateY(180deg)" }}>
             <span className="font-mono text-[11px] tracking-[.2em] text-brass">QUOTE</span>
             <span className="font-display text-[34px] leading-tight">A cover tailored<br />for a {v.make} {v.model}</span>
-            <span className="font-display text-base font-semibold tracking-[.2em]">SPECIALISED COVERS</span>
+            <span className="font-display text-base font-medium tracking-[.45em]">COVERCAR</span>
           </div>
         </div>
 

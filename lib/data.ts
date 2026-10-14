@@ -115,7 +115,7 @@ export const SPEEDS = [
 
 export const EMBLEMS = [
   { id: "none", label: "No emblem" },
-  { id: "sc", label: "Specialised Covers logo" },
+  { id: "sc", label: "COVERCAR logo" },
   { id: "crest", label: "Embroidered initials roundel" },
 ] as const;
 

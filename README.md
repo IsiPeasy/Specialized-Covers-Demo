@@ -1,4 +1,4 @@
-# Specialised Covers — configurator demo
+# COVERCAR — configurator demo
 
 Demo per il cliente: un sito in quattro stili, un configuratore con prezzo live, una logica di prezzo.
 Next.js 15 (static export) · Tailwind 4 · three.js · Zustand. Nessun backend: tutti i dati sono in `lib/data.ts`.
@@ -22,7 +22,7 @@ npm run build      # export statico in ./out
 | `/[style]/admin/` | Back-office prezzi (read-only), identico in tutti gli stili, solo ricolorato (C10) |
 
 `[style]` = `atelier` · `showroom` · `paddock` · `pattern-room`. Le vecchie route (`/home`, `/configure`…) reindirizzano ad `/atelier/…`.
-Il logo "SPECIALISED COVERS" riporta sempre a `/` per riscegliere lo stile. La pill in basso a destra cambia stile **mantenendo la route e lo step**; lo stato del configuratore (Zustand) sopravvive al cambio.
+Il logo "COVERCAR" riporta sempre a `/` per riscegliere lo stile. La pill in basso a destra cambia stile **mantenendo la route e lo step**; lo stato del configuratore (Zustand) sopravvive al cambio.
 
 ## Stili
 

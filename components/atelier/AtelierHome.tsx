@@ -65,7 +65,7 @@ export default function AtelierHome({ hero, section }: HomeSlots) {
       </section>
 
       <footer className="mx-auto flex max-w-[1280px] flex-wrap justify-between gap-6 px-4 py-10 pb-24 text-sm text-ink-3 sm:px-8">
-        <span className="font-display font-semibold tracking-[.2em] text-ink">SPECIALISED COVERS</span>
+        <span className="font-display font-medium tracking-[.45em] text-ink">COVERCAR</span>
         <span>Knowledge Centre · Delivery &amp; Returns · Contact</span>
       </footer>
     </>
