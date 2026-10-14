@@ -5,7 +5,7 @@ Demo cliente per un configuratore di coperture auto su misura con prezzo live. C
 
 ## Stack e vincoli
 - Next.js 15 App Router, `output: 'export'` (niente server), Tailwind 4 con token in `app/globals.css` (`@theme`), three.js puro in `components/Cover3D.tsx`, Zustand in `lib/store.ts`.
-- Copy in inglese britannico. UI in stile **Atelier**: avorio `#F4F0E8`, verde `#1F3B2E`, ottone `#C9A35A`, Cormorant Garamond (display) + Karla (body) + IBM Plex Mono (dati). Non introdurre altri colori o font senza motivo.
+- Copy in inglese britannico. Quattro stili (Atelier, Showroom, Paddock, Pattern Room): palette e font di ognuno sono in `lib/themes.ts` e `app/globals.css`. Non introdurre altri colori o font senza motivo.
 - Tutte le anteprime 2D usano `components/CarSvg.tsx` e i path in `lib/data.ts` (`CAR`). Il 3D estrude lo stesso path. Non duplicare path.
 - Il prezzo si calcola **solo** in `lib/pricing.ts` (`quote()`, `coverBase()`). Mai hardcodare cifre nei componenti.
 - Accessibilità: bottoni veri, `aria-pressed`/`role=radio`, contrasto ≥ 4.5:1, `prefers-reduced-motion` rispettato (già in globals.css).
@@ -14,8 +14,18 @@ Demo cliente per un configuratore di coperture auto su misura con prezzo live. C
 ## Modello di prezzo
 `price = line_base × shape_factor × size_factor + Σ options`, arrotondato a £1. Cinque forme (Compact, Coupé, Saloon, Estate, SUV) × quattro taglie (S/M/L/XL per lunghezza). Override per modello per le one-off. Questo è l'argomento che permette 5.000 modelli senza render per auto.
 
+## Temi
+- Registry: `lib/themes.ts` (`StyleId`, token, mappa componenti `Header/Home/Hero/Section/Preview/FabricStep/ColourStepVariant/QuoteVariant` via `next/dynamic`). Uno stile nuovo = una voce nel registry + un blocco `[data-theme="…"]` in `globals.css` + la cartella `components/<stile>/`.
+- Niente `if (style === …)` nei componenti: la variazione passa dal registry o dalle variabili CSS.
+- Colori: usa i token semantici (`bg`, `surface`, `surface-2/3`, `line`, `ink`, `ink-2/3`, `accent`, `on-accent`, `accent-2`, `accent-2-ink`, `ok`, `warn`, `model`, `model-trim`, `quote-cover`). Gli alias Atelier (`ivory`, `green`, `brass`…) restano validi e risolvono al tema attivo. Hex fissi solo dentro componenti di un singolo stile.
+- `[data-theme]` ridichiara gli alias: serve perché le porte della landing annidano un tema dentro la pagina.
+- Link interni: `ThemedLink` (aggiunge `/<stile>/`). Il logo punta sempre a `/`.
+- Condivisi e intoccabili: `lib/data.ts`, `lib/pricing.ts`, `lib/store.ts`, `CarSvg`, `Cover3D` (solo props di scena/interazione: `background`, `lightIntensity`, `keyColor`, `rimColor`, `autoRotate`, `wireframe`, `grid`, `dragRotate`).
+- Motion per stile: keyframes prefissati in `globals.css` (`sr-*` Showroom, `pd-*` Paddock, `pr-*` Pattern Room, `at-*` Atelier). Lo stato base di ogni elemento animato deve essere quello finale/leggibile: con `prefers-reduced-motion` le animazioni sono spente.
+- QA: `npm run qa` (Playwright) dopo `npm run build` e un server statico su :4173.
+
 ## Convenzioni
-- Un componente per step in `components/steps/`; ogni step usa `StepTitle` + `PriceAside` da `ConfigShell.tsx`.
+- Step condivisi in `components/steps/`, varianti per stile in `components/<stile>/`; ogni step usa `StepTitle` (+ `PriceAside` o `QuoteControls`) da `ConfigShell.tsx` / `steps/QuoteControls.tsx`.
 - Stato globale solo per ciò che influenza il prezzo o persiste tra step; UI locale (zona selezionata, vista camera) con `useState`.
 - 3D: CSS 3D (`perspective`/`preserve`) per effetti leggeri; three.js solo in `Cover3D`. Niente R3F finché non servono i GLB.
 - Verifica con `npm run build` prima di consegnare: l'export statico fallisce su `useSearchParams` senza `Suspense` e su API server.

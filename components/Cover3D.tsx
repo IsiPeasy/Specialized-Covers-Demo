@@ -57,6 +57,8 @@ export default function Cover3D(props: Cover3DProps) {
     if (props.background) scene.background = new THREE.Color(props.background);
     const li = props.lightIntensity ?? 1;
     const camera = new THREE.PerspectiveCamera(30, W / H, 0.1, 100);
+    // Narrow canvases (phones) zoom out so the whole car stays in frame
+    camera.zoom = Math.min(1, W / H / 1.5); camera.updateProjectionMatrix();
     const camTarget = new THREE.Vector3(4.2, 3.2, 12.6); camera.position.copy(camTarget); camera.lookAt(0, 0, 0);
     scene.add(new THREE.HemisphereLight(0xffffff, 0x9a9484, 0.95 * li));
     const sun = new THREE.DirectionalLight(props.keyColor ?? 0xfff4e0, 1.0 * li); sun.position.set(4, 7, 5); sun.castShadow = true; sun.shadow.mapSize.set(2048, 2048); scene.add(sun);

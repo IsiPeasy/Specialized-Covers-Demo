@@ -8,7 +8,7 @@ function Dimensions() {
   const s = useConfig();
   const v = VEHICLES[s.vehicleIndex];
   return (
-    <div className="pointer-events-none absolute inset-x-4 bottom-12 z-10 flex flex-col items-center gap-1 font-mono text-[12px] text-ink sm:inset-x-[12%]" aria-hidden="true">
+    <div className="pointer-events-none absolute inset-x-4 bottom-20 z-10 sm:bottom-12 flex flex-col items-center gap-1 font-mono text-[12px] text-ink sm:inset-x-[12%]" aria-hidden="true">
       <div className="relative h-3 w-full border-x-2 border-ink"><div className="absolute inset-x-0 top-1/2 border-t border-ink" /></div>
       <span className="bg-bg px-2">OVERALL LENGTH · SIZE {s.size} · {SIZE_LENGTH[s.size]} · {`${v.make} ${v.model}`.toUpperCase()}</span>
     </div>
