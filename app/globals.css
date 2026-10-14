@@ -196,6 +196,17 @@
 }
 [data-theme="pattern-room"] .font-display { font-weight: 600; letter-spacing: -.02em; }
 
+/* Pattern Room motion — drawing (stroke-dashoffset) and fades only, no bounce. */
+@keyframes pr-cut { from { stroke-dashoffset: 1600; } to { stroke-dashoffset: 0; } }
+@keyframes pr-w1 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-40px, 14px); } }
+@keyframes pr-w2 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(50px, -10px); } }
+@keyframes pr-w3 { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(-30px, -18px); } }
+@keyframes pr-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+@keyframes pr-name-1 { 0%, 26% { opacity: 1; } 33%, 100% { opacity: 0; } }
+@keyframes pr-name-2 { 0%, 33% { opacity: 0; } 40%, 60% { opacity: 1; } 67%, 100% { opacity: 0; } }
+@keyframes pr-name-3 { 0%, 67% { opacity: 0; } 74%, 93% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes pr-sway { 0%, 100% { transform: rotateX(58deg) rotateZ(-38deg); } 50% { transform: rotateX(56deg) rotateZ(-30deg); } }
+
 @layer base {
   :root { color-scheme: light; }
   html, body { background: var(--color-ivory); color: var(--color-ink); font-family: var(--font-body); }
@@ -225,6 +236,7 @@
 @keyframes stitch { to { stroke-dashoffset: -12; } }
 @keyframes bump { 0% { transform: scale(1); } 40% { transform: scale(1.06); } 100% { transform: scale(1); } }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes at-fold { 0%, 10% { transform: rotateX(-96deg); } 45%, 80% { transform: rotateX(0deg); } 95%, 100% { transform: rotateX(-96deg); } }
 
 @media print {
   body * { visibility: hidden; }

@@ -1,10 +1,11 @@
 import SiteHeader from "@/components/SiteHeader";
+import DrapeSection from "./DrapeSection";
 import { ThemedLink } from "@/components/theme/ThemeProvider";
 import { FABRICS } from "@/lib/data";
 import { gbp } from "@/lib/pricing";
 import type { HomeSlots } from "@/lib/themes";
 
-/** T1 — Atelier homepage. Hero and section come from the registry (TailorHero, FlipWall). */
+/** T1 — Atelier homepage. Hero and section come from the registry (TailorHero, FlipWall); Drape is Atelier's own. */
 export default function AtelierHome({ hero, section }: HomeSlots) {
   const range = FABRICS.filter((f) => ["prestige", "prestige-plus", "prestige-recycled", "stormtex-plus"].includes(f.id));
   return (
@@ -45,6 +46,8 @@ export default function AtelierHome({ hero, section }: HomeSlots) {
       </section>
 
       {section}
+
+      <DrapeSection />
 
       <section className="bg-green text-[#EDE6D6]">
         <div className="mx-auto grid max-w-[1280px] items-start gap-14 px-4 py-20 sm:px-8 lg:grid-cols-2">
