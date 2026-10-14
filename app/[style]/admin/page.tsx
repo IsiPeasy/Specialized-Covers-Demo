@@ -5,12 +5,11 @@ import { coverBase, gbp } from "@/lib/pricing";
 const card = "border border-line bg-surface p-5";
 
 /** C10 — pricing back-office (read-only in the demo). Same in every style, only recoloured. */
-export default async function Admin({ params }: { params: Promise<{ style: string }> }) {
-  const { style } = await params;
-  return (
+export default function Admin() {
+    return (
     <div className="grid min-h-screen bg-surface-2 lg:grid-cols-[220px_minmax(0,1fr)]">
       <nav aria-label="Back-office" className="flex flex-wrap gap-1 bg-accent p-4 text-on-accent lg:flex-col lg:flex-nowrap">
-        <Link href={`/${style}/`} className="w-full px-2.5 pb-3 font-display text-lg font-semibold tracking-[.16em] text-on-accent no-underline hover:text-on-accent lg:pb-5">SC · CONFIGURATOR</Link>
+        <Link href="/" title="All styles" className="w-full px-2.5 pb-3 font-display text-lg font-semibold tracking-[.16em] text-on-accent no-underline hover:text-on-accent lg:pb-5">SC · CONFIGURATOR</Link>
         {["Models & shapes", "Fabrics & lines", "Options & extras", "Colours", "Quotes", "Pattern requests"].map((t, i) => (<span key={t} className={`px-2.5 py-2.5 text-sm ${i === 0 ? "bg-on-accent font-bold text-accent" : ""}`}>{t}</span>))}
       </nav>
       <main className="flex min-w-0 flex-col gap-6 p-4 pb-24 sm:p-9">

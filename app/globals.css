@@ -101,6 +101,21 @@
   --dur: 1.2s;
 }
 [data-theme="showroom"] .font-display { font-weight: 300; letter-spacing: .02em; }
+[data-theme="showroom"] { --swatch-edge: 0 0 0 0 transparent; }
+
+/* Showroom motion — slow, cubic-bezier(.2,.8,.2,1). 6 s unveil loop; the car changes colour every loop (18 s). */
+@keyframes sr-pull {
+  0%, 12% { transform: none; opacity: 1; }
+  78% { transform: translate(520px, -260px) rotate(-14deg); opacity: 1; }
+  86% { transform: translate(520px, -260px) rotate(-14deg); opacity: 0; }
+  87% { transform: none; opacity: 0; }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes sr-paint { 0%, 33.3% { fill: #8a1c1c; } 33.4%, 66.6% { fill: #1c2740; } 66.7%, 100% { fill: #d9a62e; } }
+@keyframes sr-spot { 0%, 12% { opacity: .35; } 78% { opacity: 1; } 100% { opacity: .35; } }
+@keyframes sr-rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes sr-turn { from { transform: rotateX(-14deg) rotateY(0deg); } to { transform: rotateX(-14deg) rotateY(360deg); } }
+@keyframes sr-disc { from { transform: rotateX(76deg) rotateZ(0deg); } to { transform: rotateX(76deg) rotateZ(360deg); } }
 [data-theme="showroom"] .eyebrow { font-family: var(--font-body); letter-spacing: .32em; font-size: 11px; }
 
 /* ── Paddock — motorsport, technical ── */

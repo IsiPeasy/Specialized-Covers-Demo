@@ -21,6 +21,8 @@ export interface Cover3DProps {
   wireframe?: string | null;
   /** Ground grid colour (Paddock) */
   grid?: string | null;
+  /** Drag (mouse or touch) to turn the cover; auto-rotate pauses while dragging */
+  dragRotate?: boolean;
 }
 
 /** Builds the cover's cross-section from the same SVG path every 2D preview uses. */
@@ -43,7 +45,7 @@ function carShape(): THREE.Shape {
  */
 export default function Cover3D(props: Cover3DProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const rig = useRef<{ side: THREE.MeshStandardMaterial; centre: THREE.MeshStandardMaterial; pipe: THREE.MeshStandardMaterial; stripeMat: THREE.MeshStandardMaterial; stripe: THREE.Mesh; group: THREE.Group; camTarget: THREE.Vector3; view: string; autoRotate: boolean } | null>(null);
+  const rig = useRef<{ side: THREE.MeshStandardMaterial; centre: THREE.MeshStandardMaterial; pipe: THREE.MeshStandardMaterial; stripeMat: THREE.MeshStandardMaterial; stripe: THREE.Mesh; group: THREE.Group; camTarget: THREE.Vector3; view: string; autoRotate: boolean; paused: () => boolean } | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -88,16 +90,35 @@ export default function Cover3D(props: Cover3DProps) {
       scene.add(grid);
     }
 
-    rig.current = { side, centre, pipe, stripeMat, stripe, group, camTarget, view: props.view, autoRotate: props.autoRotate ?? true };
+    rig.current = { side, centre, pipe, stripeMat, stripe, group, camTarget, view: props.view, autoRotate: props.autoRotate ?? true, paused: () => false };
     let raf = 0;
     const tick = () => {
       raf = requestAnimationFrame(tick);
       camera.position.lerp(camTarget, 0.06); camera.lookAt(0, 0, 0);
-      if (rig.current?.view === "three" && rig.current.autoRotate) group.rotation.y += 0.003;
+      if (rig.current?.view === "three" && rig.current.autoRotate && !rig.current.paused()) group.rotation.y += 0.003;
       renderer.render(scene, camera);
     };
     raf = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(raf); renderer.dispose(); geo.dispose(); };
+    let drag: { x: number; y: number } | null = null, idleUntil = 0;
+    const down = (e: PointerEvent) => { drag = { x: e.clientX, y: e.clientY }; canvas.setPointerCapture(e.pointerId); };
+    const move = (e: PointerEvent) => {
+      if (!drag) return;
+      group.rotation.y += (e.clientX - drag.x) * 0.01;
+      group.rotation.x = Math.max(-0.5, Math.min(0.5, group.rotation.x + (e.clientY - drag.y) * 0.006));
+      drag = { x: e.clientX, y: e.clientY }; idleUntil = performance.now() + 2500;
+    };
+    const up = () => { drag = null; };
+    if (props.dragRotate) {
+      canvas.style.cursor = "grab"; canvas.style.touchAction = "pan-y";
+      canvas.addEventListener("pointerdown", down); canvas.addEventListener("pointermove", move);
+      canvas.addEventListener("pointerup", up); canvas.addEventListener("pointercancel", up);
+      rig.current.paused = () => drag !== null || performance.now() < idleUntil;
+    }
+    return () => {
+      cancelAnimationFrame(raf); renderer.dispose(); geo.dispose();
+      canvas.removeEventListener("pointerdown", down); canvas.removeEventListener("pointermove", move);
+      canvas.removeEventListener("pointerup", up); canvas.removeEventListener("pointercancel", up);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -106,7 +127,7 @@ export default function Cover3D(props: Cover3DProps) {
     r.side.color.set(props.side); r.centre.color.set(props.centre); r.pipe.color.set(props.piping); r.stripeMat.color.set(props.stripe);
     r.stripe.visible = props.stripeOn; r.view = props.view; r.autoRotate = props.autoRotate ?? true;
     if (props.view === "side") { r.camTarget.set(0, 0.8, 13.5); r.group.rotation.y = 0; }
-    else if (props.view === "top") { r.camTarget.set(0.01, 13.5, 0.01); r.group.rotation.y = 0; }
+    else if (props.view === "top") { r.camTarget.set(0, 13.5, 0.8); r.group.rotation.y = 0; }
     else r.camTarget.set(4.2, 3.2, 12.6);
   }, [props.side, props.centre, props.piping, props.stripe, props.stripeOn, props.view, props.autoRotate]);
 
