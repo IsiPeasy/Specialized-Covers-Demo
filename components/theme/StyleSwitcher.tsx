@@ -33,7 +33,10 @@ export default function StyleSwitcher() {
           );
         })}
       </ul>
-      <Link href="/" className="rounded-full px-3 py-2 text-[#c8c8c4] no-underline hover:text-[#f4f4f2]" aria-label="All styles">All</Link>
+      <span aria-hidden="true" className="mx-1 h-6 w-px bg-[#ffffff33]" />
+      <Link href="/" className="flex items-center gap-1.5 whitespace-nowrap rounded-full border border-[#f4f4f2] px-3 py-2 font-bold text-[#f4f4f2] no-underline hover:bg-[#f4f4f2] hover:text-[#141414]">
+        <span aria-hidden="true">←</span> All styles
+      </Link>
     </nav>
   );
 }
