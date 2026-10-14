@@ -1,0 +1,11 @@
+# Static export served by Caddy. Build: docker compose up -d --build
+FROM node:22-alpine AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM caddy:2-alpine
+COPY --from=build /app/out /srv
+COPY Caddyfile /etc/caddy/Caddyfile

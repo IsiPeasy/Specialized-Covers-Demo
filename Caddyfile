@@ -1,0 +1,14 @@
+{$DEMO_HOST:localhost}
+
+root * /srv
+encode gzip
+file_server
+
+# Basic auth for the client demo. Generate the hash with: docker run --rm caddy caddy hash-password
+# and set DEMO_USER / DEMO_HASH in .env. Remove this block for a public demo.
+basic_auth {
+	{$DEMO_USER:demo} {$DEMO_HASH}
+}
+
+# Static export: /configure/ -> /configure/index.html
+try_files {path} {path}/ /index.html
